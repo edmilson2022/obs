@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mk Fortaleza</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Arial Black', 'Impact', sans-serif; margin: 0; padding: 0; }
+        body { background-color: transparent; overflow: hidden; width: 1000px; height: 50px; }
+
+        /* Estrutura Principal */
+        .scoreboard {
+            width: 100%; height: 50px;
+            border-radius: 12px; display: table; table-layout: fixed;
+            transition: all 0.5s ease;
+        }
+        .score-cell { display: table-cell; vertical-align: middle; text-align: center; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); }
+        .player-name { font-size: 20px; color: #ffffff; letter-spacing: 2px; text-transform: uppercase; font-style: italic; padding: 0 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .score-box { width: 70px; font-size: 28px; color: #fff; font-style: italic; }
+
+        /* Estilo Base para o Campo do Meio (Match Type) com Animação Ultra Suave */
+        .match-type {
+            font-size: 20px; color: #fff; width: 120px; letter-spacing: 1px;
+            animation: gradient-animation 12s ease-in-out infinite;
+        }
+
+        /* Animação que rotaciona as cores do gradiente continuamente */
+        @keyframes gradient-animation {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        /* --- PALETAS DE CORES (TEMAS) --- */
+        /* 1. Azul Clássico */
+        .theme-blue { background: linear-gradient(180deg, #104494 0%, #1c62be 50%, #0d3878 100%); border: 3px solid #7cb0f7; box-shadow: 0 0 15px rgba(0, 110, 255, 0.6); }
+        .theme-blue .score-box { background: linear-gradient(180deg, #052654 0%, #0c438f 100%); }
+        .theme-blue .score-box:not(.right) { border-right: 3px solid #7cb0f7; }
+        .theme-blue .score-box.right { border-left: 3px solid #7cb0f7; }
+        .theme-blue .match-type { background: linear-gradient(135deg, #09316c 0%, #1c62be 50%, #031533 100%); border-left: 3px solid #7cb0f7; border-right: 3px solid #7cb0f7; }
+
+        /* 2. Vermelho */
+        .theme-red { background: linear-gradient(180deg, #8b0000 0%, #cc1111 50%, #5a0000 100%); border: 3px solid #ff6666; box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); }
+        .theme-red .score-box { background: linear-gradient(180deg, #420000 0%, #6e0000 100%); }
+        .theme-red .score-box:not(.right) { border-right: 3px solid #ff6666; }
+        .theme-red .score-box.right { border-left: 3px solid #ff6666; }
+        .theme-red .match-type { background: linear-gradient(135deg, #5a0000 0%, #cc1111 50%, #2b0000 100%); border-left: 3px solid #ff6666; border-right: 3px solid #ff6666; }
+
+        /* 3. Verde */
+        .theme-green { background: linear-gradient(180deg, #0f6417 0%, #1db927 50%, #0a440f 100%); border: 3px solid #66ff73; box-shadow: 0 0 15px rgba(0, 255, 27, 0.6); }
+        .theme-green .score-box { background: linear-gradient(180deg, #052b07 0%, #0c5411 100%); }
+        .theme-green .score-box:not(.right) { border-right: 3px solid #66ff73; }
+        .theme-green .score-box.right { border-left: 3px solid #66ff73; }
+        .theme-green .match-type { background: linear-gradient(135deg, #0a440f 0%, #1db927 50%, #031c06 100%); border-left: 3px solid #66ff73; border-right: 3px solid #66ff73; }
+
+        /* 4. Amarelo Ouro */
+        .theme-gold { background: linear-gradient(180deg, #9a7000 0%, #e6a900 50%, #684b00 100%); border: 3px solid #ffe366; box-shadow: 0 0 15px rgba(230, 169, 0, 0.6); }
+        .theme-gold .score-box { background: linear-gradient(180deg, #443100 0%, #705200 100%); }
+        .theme-gold .score-box:not(.right) { border-right: 3px solid #ffe366; }
+        .theme-gold .score-box.right { border-left: 3px solid #ffe366; }
+        .theme-gold .match-type { background: linear-gradient(135deg, #5c4300 0%, #e6a900 50%, #2e2100 100%); border-left: 3px solid #ffe366; border-right: 3px solid #ffe366; }
+
+        /* 5. Dark Mode */
+        .theme-dark { background: linear-gradient(180deg, #2a2a2a 0%, #444444 50%, #1a1a1a 100%); border: 3px solid #888888; box-shadow: 0 0 15px rgba(0, 0, 0, 0.6); }
+        .theme-dark .score-box { background: linear-gradient(180deg, #111111 0%, #222222 100%); }
+        .theme-dark .score-box:not(.right) { border-right: 3px solid #888888; }
+        .theme-dark .score-box.right { border-left: 3px solid #888888; }
+        .theme-dark .match-type { background: linear-gradient(135deg, #222222 0%, #555555 50%, #0a0a0a 100%); border-left: 3px solid #888888; border-right: 3px solid #888888; }
+    </style>
+</head>
+<body>
+
+    <div class="scoreboard theme-blue" id="board">
+        <div class="score-cell score-box" id="display-score1">0</div>
+        <div class="score-cell player-name" id="display-name1">JOGADOR 1</div>
+        <div class="score-cell match-type" id="display-match">FT10</div>
+        <div class="score-cell player-name" id="display-name2">JOGADOR 2</div>
+        <div class="score-cell score-box right" id="display-score2">0</div>
+    </div>
+
+    <script>
+        function carregarDados() {
+            document.getElementById('display-name1').innerText = localStorage.getItem('p1_name') || 'JOGADOR 1';
+            document.getElementById('display-score1').innerText = localStorage.getItem('p1_score') || '0';
+            document.getElementById('display-match').innerText = localStorage.getItem('match_type') || 'FT10';
+            document.getElementById('display-name2').innerText = localStorage.getItem('p2_name') || 'JOGADOR 2';
+            document.getElementById('display-score2').innerText = localStorage.getItem('p2_score') || '0';
+            
+            // Atualiza o tema de cor de forma dinâmica
+            const temaAtual = localStorage.getItem('scoreboard_theme') || 'theme-blue';
+            document.getElementById('board').className = "scoreboard " + temaAtual;
+        }
+
+        window.addEventListener('storage', carregarDados);
+        window.onload = carregarDados;
+    </script>
+</body>
+</html>

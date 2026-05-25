@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mk Fortaleza</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Arial Black', 'Impact', sans-serif; margin: 0; padding: 0; }
+        body { background-color: transparent; overflow: hidden; width: 1000px; height: 50px; }
+
+        .scoreboard {
+            width: 100%; height: 50px;
+            border-radius: 12px; display: table; table-layout: fixed;
+            transition: all 0.5s ease;
+
+            /* Efeito vidro */
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow:
+                0 4px 30px rgba(0, 0, 0, 0.35),
+                inset 0 1px 1px rgba(255,255,255,0.15);
+        }
+
+        .score-cell { display: table-cell; vertical-align: middle; text-align: center; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); position: relative; }
+        
+        .player-name { font-size: 20px; color: #ffffff; letter-spacing: 2px; text-transform: uppercase; font-style: italic; padding: 0 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; z-index: 2; }
+        
+        .life-bar-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: rgba(0,0,0,0.3); }
+        .life-bar-fill { height: 100%; background: #ff0000; width: 0%; transition: width 0.5s ease; }
+
+        .score-box { width: 70px; font-size: 28px; color: #fff; font-style: italic; }
+        .match-type { font-size: 20px; color: #fff; width: 120px; animation: gradient-animation 12s ease-in-out infinite; }
+
+        @keyframes gradient-animation { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+
+        .theme-blue { background: rgba(16, 68, 148, 0.25); }
+        .theme-red { background: rgba(139, 0, 0, 0.25); }
+        .theme-green { background: rgba(15, 100, 23, 0.25); }
+        .theme-gold { background: rgba(154, 112, 0, 0.25); }
+        .theme-dark { background: rgba(42, 42, 42, 0.25); }
+    </style>
+</head>
+<body>
+
+    <div class="scoreboard theme-blue" id="board">
+        <div class="score-cell score-box" id="display-score1">0</div>
+        
+        <div class="score-cell" style="position: relative;">
+            <div class="player-name" id="display-name1">JOGADOR 1</div>
+            <div class="life-bar-container"><div class="life-bar-fill" id="life1"></div></div>
+        </div>
+
+        <div class="score-cell match-type" id="display-match">FT10</div>
+
+        <div class="score-cell" style="position: relative;">
+            <div class="player-name" id="display-name2">JOGADOR 2</div>
+            <div class="life-bar-container"><div class="life-bar-fill" id="life2"></div></div>
+        </div>
+        
+        <div class="score-cell score-box right" id="display-score2">0</div>
+    </div>
+
+    <script>
+        function carregarDados() {
+            const matchType = localStorage.getItem('match_type') || 'FT10';
+            // Extrai o número do FT (ex: "FT5" vira 5, "FT7" vira 7)
+            const ftLimit = parseInt(matchType.replace(/\D/g, '')) || 10;
+            
+            let p1Score = parseInt(localStorage.getItem('p1_score')) || 0;
+            let p2Score = parseInt(localStorage.getItem('p2_score')) || 0;
+
+            // Trava o placar no limite configurado no FT
+            if (p1Score > ftLimit) p1Score = ftLimit;
+            if (p2Score > ftLimit) p2Score = ftLimit;
+
+            document.getElementById('display-name1').innerText = localStorage.getItem('p1_name') || 'JOGADOR 1';
+            document.getElementById('display-name2').innerText = localStorage.getItem('p2_name') || 'JOGADOR 2';
+            document.getElementById('display-score1').innerText = p1Score;
+            document.getElementById('display-score2').innerText = p2Score;
+            document.getElementById('display-match').innerText = matchType;
+
+            // Calcula a porcentagem proporcional ao valor do FT para atingir 100%
+            const p1Percent = (p2Score / ftLimit) * 100;
+            const p2Percent = (p1Score / ftLimit) * 100;
+
+            document.getElementById('life1').style.width = p1Percent + '%';
+            document.getElementById('life2').style.width = p2Percent + '%';
+
+            const temaAtual = localStorage.getItem('scoreboard_theme') || 'theme-blue';
+            document.getElementById('board').className = "scoreboard " + temaAtual;
+        }
+
+        window.addEventListener('storage', carregarDados);
+        window.onload = carregarDados;
+    </script>
+</body>
+</html>
