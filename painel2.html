@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mk Fortaleza - Painel</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        body {
+            background-color: #1e1e1e;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .header-container {
+            max-width: 600px;
+            margin: 0 auto 15px auto;
+            text-align: center;
+        }
+
+        .header-logo {
+            max-height: 80px;
+            width: auto;
+            display: block;
+            margin: 20px auto 10px auto;
+        }
+
+        .main-title {
+            font-size: 38px;
+            font-family: 'Arial Black', 'Impact', sans-serif;
+            text-transform: uppercase;
+            font-style: italic;
+            letter-spacing: 2px;
+            margin: 0 0 15px 0;
+
+            background: linear-gradient(
+                135deg,
+                #1c62be,
+                #cc1111,
+                #e6a900,
+                #1c62be
+            );
+
+            background-size: 300% 300%;
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            animation: title-gradient 8s ease-in-out infinite;
+        }
+
+        @keyframes title-gradient {
+
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .panel {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #7cb0f7;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+
+        .theme-selector {
+            background: #222;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px dashed #555;
+        }
+
+        select {
+            width: 100%;
+            background: #1a1a1a;
+            color: #fff;
+            border: 1px solid #666;
+            padding: 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .col {
+            width: 44%;
+        }
+
+        .col-center {
+            width: 12%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        input[type="number"] {
+            font-size: 24px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+
+        button {
+            flex: 1;
+            margin: 2px;
+            padding: 10px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #444;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        button.plus {
+            background: #104494;
+        }
+
+        button.plus:hover {
+            background: #1c62be;
+        }
+
+        button.reset {
+            background: #c62828;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        button.reset:hover {
+            background: #b71c1c;
+        }
+
+        .donation-box {
+            max-width: 600px;
+            margin: 20px auto 0 auto;
+            background: #222;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .pix-key {
+            display: block;
+            background: #1a1a1a;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            color: #7cb0f7;
+            font-family: monospace;
+            font-size: 14px;
+            margin: 5px 0;
+            text-align: center;
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header-container">
+    <img id="logo-preview" class="header-logo" alt="Logo">
+
+    <h1 class="main-title">
+        Mk Fortaleza
+    </h1>
+</div>
+
+<div class="panel">
+
+    <h2>Controle do Placar</h2>
+
+    <div class="theme-selector">
+
+        <label for="theme_select">
+            🎨 Escolha o Tema Visível no OBS:
+        </label>
+
+        <select id="theme_select" onchange="salvar()">
+
+            <option value="theme-blue">
+                🔵 Classic Blue (Padrão)
+            </option>
+
+            <option value="theme-red">
+                🔴 Burn Red
+            </option>
+
+            <option value="theme-green">
+                🟢 Acid Green
+            </option>
+
+            <option value="theme-gold">
+                🟡 Gold Edition
+            </option>
+
+            <option value="theme-dark">
+                ⚫ Dark Mode
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col">
+
+            <label>Jogador 1</label>
+
+            <input
+                type="text"
+                id="p1_name"
+                value="TITAN"
+                oninput="salvar()"
+            >
+
+            <input
+                type="number"
+                id="p1_score"
+                value="0"
+                readonly
+            >
+
+            <div class="btn-group">
+
+                <button onclick="alterar('p1_score', -1)">
+                    -1
+                </button>
+
+                <button
+                    class="plus"
+                    onclick="alterar('p1_score', 1)"
+                >
+                    +1
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="col-center">
+
+            <label>Modo</label>
+
+            <input
+                type="text"
+                id="match_type"
+                value="FT10"
+                oninput="salvar()"
+                style="text-align: center; font-weight: bold;"
+            >
+
+        </div>
+
+        <div class="col">
+
+            <label>Jogador 2</label>
+
+            <input
+                type="text"
+                id="p2_name"
+                value="PIERO"
+                oninput="salvar()"
+            >
+
+            <input
+                type="number"
+                id="p2_score"
+                value="0"
+                readonly
+            >
+
+            <div class="btn-group">
+
+                <button onclick="alterar('p2_score', -1)">
+                    -1
+                </button>
+
+                <button
+                    class="plus"
+                    onclick="alterar('p2_score', 1)"
+                >
+                    +1
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <button class="reset" onclick="zerar()">
+        Zerar Placar
+    </button>
+
+</div>
+
+<div class="donation-box">
+
+    <strong>
+        Se quiser apoiar ao desenvolvedor segue chave pix abaixo:
+    </strong>
+
+    <br><br>
+
+    <strong>Chave:</strong>
+
+    <span class="pix-key">
+        32e7d32b-a58a-4519-9002-a3711f16ac8f
+    </span>
+
+    <strong>Recebedor:</strong><br>
+
+    banco: Stone<br>
+    Edmilson Machado
+
+</div>
+
+<script>
+
+    const channel =
+        new BroadcastChannel('scoreboard_channel');
+
+    const LINK_DA_SUA_IMAGEM_AQUI =
+        "https://cdn2.steamgriddb.com/logo/22cdeda97afa215e6098c8f6abae58b6.png";
+
+    function salvar() {
+
+        localStorage.setItem(
+            'update_time',
+            Date.now()
+        );
+
+        localStorage.setItem(
+            'p1_name',
+            document.getElementById('p1_name').value
+        );
+
+        localStorage.setItem(
+            'p1_score',
+            document.getElementById('p1_score').value
+        );
+
+        localStorage.setItem(
+            'match_type',
+            document.getElementById('match_type').value
+        );
+
+        localStorage.setItem(
+            'p2_name',
+            document.getElementById('p2_name').value
+        );
+
+        localStorage.setItem(
+            'p2_score',
+            document.getElementById('p2_score').value
+        );
+
+        localStorage.setItem(
+            'scoreboard_theme',
+            document.getElementById('theme_select').value
+        );
+
+        localStorage.setItem(
+            'scoreboard_logo',
+            LINK_DA_SUA_IMAGEM_AQUI
+        );
+
+        document.getElementById('logo-preview').src =
+            LINK_DA_SUA_IMAGEM_AQUI;
+
+        // Atualiza o placar no OBS
+        channel.postMessage('update');
+    }
+
+    function alterar(id, valor) {
+
+        let campo =
+            document.getElementById(id);
+
+        let matchTypeStr =
+            document.getElementById('match_type').value;
+
+        let ftLimit =
+            parseInt(matchTypeStr.replace(/\D/g, '')) || 999;
+
+        let atual =
+            parseInt(campo.value) || 0;
+
+        atual += valor;
+
+        if (atual < 0) atual = 0;
+
+        if (atual > ftLimit) atual = ftLimit;
+
+        campo.value = atual;
+
+        salvar();
+    }
+
+    function zerar() {
+
+        document.getElementById('p1_score').value = 0;
+
+        document.getElementById('p2_score').value = 0;
+
+        salvar();
+    }
+
+    window.onload = function () {
+
+        document.getElementById('logo-preview').src =
+            LINK_DA_SUA_IMAGEM_AQUI;
+
+        if(localStorage.getItem('scoreboard_theme')) {
+
+            document.getElementById('theme_select').value =
+                localStorage.getItem('scoreboard_theme');
+
+            document.getElementById('p1_name').value =
+                localStorage.getItem('p1_name') || 'TITAN';
+
+            document.getElementById('p1_score').value =
+                localStorage.getItem('p1_score') || 0;
+
+            document.getElementById('p2_name').value =
+                localStorage.getItem('p2_name') || 'PIERO';
+
+            document.getElementById('p2_score').value =
+                localStorage.getItem('p2_score') || 0;
+
+            document.getElementById('match_type').value =
+                localStorage.getItem('match_type') || 'FT10';
+        }
+
+        salvar();
+    };
+
+</script>
+
+</body>
+</html>

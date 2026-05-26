@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mk Fortaleza</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Arial Black', 'Impact', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: transparent;
+            overflow: hidden;
+            width: 1000px;
+            height: 50px;
+        }
+
+        .scoreboard {
+            width: 100%;
+            height: 50px;
+            border-radius: 12px;
+            display: table;
+            table-layout: fixed;
+            transition: all 0.3s ease;
+        }
+
+        .score-cell {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .player-name {
+            font-size: 20px;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-style: italic;
+            padding: 0 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            z-index: 2;
+        }
+
+        .life-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .life-bar-fill {
+            height: 100%;
+            background: #ff0000;
+            width: 0%;
+            transition: width 0.2s linear;
+        }
+
+        .score-box {
+            width: 70px;
+            font-size: 28px;
+            color: #fff;
+            font-style: italic;
+        }
+
+        .match-type {
+            font-size: 20px;
+            color: #fff;
+            width: 120px;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        .theme-blue {
+            background: linear-gradient(180deg, #104494 0%, #1c62be 50%, #0d3878 100%);
+            border: 3px solid #7cb0f7;
+        }
+
+        .theme-red {
+            background: linear-gradient(180deg, #8b0000 0%, #cc1111 50%, #5a0000 100%);
+            border: 3px solid #ff6666;
+        }
+
+        .theme-green {
+            background: linear-gradient(180deg, #0f6417 0%, #1db927 50%, #0a440f 100%);
+            border: 3px solid #66ff73;
+        }
+
+        .theme-gold {
+            background: linear-gradient(180deg, #9a7000 0%, #e6a900 50%, #684b00 100%);
+            border: 3px solid #ffe366;
+        }
+
+        .theme-dark {
+            background: linear-gradient(180deg, #2a2a2a 0%, #444444 50%, #1a1a1a 100%);
+            border: 3px solid #888888;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="scoreboard theme-blue" id="board">
+
+    <div class="score-cell score-box" id="display-score1">
+        0
+    </div>
+
+    <div class="score-cell" style="position: relative;">
+
+        <div class="player-name" id="display-name1">
+            JOGADOR 1
+        </div>
+
+        <div class="life-bar-container">
+            <div class="life-bar-fill" id="life1"></div>
+        </div>
+
+    </div>
+
+    <div class="score-cell match-type" id="display-match">
+        FT10
+    </div>
+
+    <div class="score-cell" style="position: relative;">
+
+        <div class="player-name" id="display-name2">
+            JOGADOR 2
+        </div>
+
+        <div class="life-bar-container">
+            <div class="life-bar-fill" id="life2"></div>
+        </div>
+
+    </div>
+
+    <div class="score-cell score-box right" id="display-score2">
+        0
+    </div>
+
+</div>
+
+<script>
+
+    function carregarDados() {
+
+        const matchType =
+            localStorage.getItem('match_type') || 'FT10';
+
+        const ftLimit =
+            parseInt(matchType.replace(/\D/g, '')) || 10;
+
+        let p1Score =
+            parseInt(localStorage.getItem('p1_score')) || 0;
+
+        let p2Score =
+            parseInt(localStorage.getItem('p2_score')) || 0;
+
+        if (p1Score > ftLimit) p1Score = ftLimit;
+        if (p2Score > ftLimit) p2Score = ftLimit;
+
+        document.getElementById('display-name1').innerText =
+            localStorage.getItem('p1_name') || 'JOGADOR 1';
+
+        document.getElementById('display-name2').innerText =
+            localStorage.getItem('p2_name') || 'JOGADOR 2';
+
+        document.getElementById('display-score1').innerText =
+            p1Score;
+
+        document.getElementById('display-score2').innerText =
+            p2Score;
+
+        document.getElementById('display-match').innerText =
+            matchType;
+
+        const p1Percent =
+            (p2Score / ftLimit) * 100;
+
+        const p2Percent =
+            (p1Score / ftLimit) * 100;
+
+        document.getElementById('life1').style.width =
+            p1Percent + '%';
+
+        document.getElementById('life2').style.width =
+            p2Percent + '%';
+
+        const temaAtual =
+            localStorage.getItem('scoreboard_theme') || 'theme-blue';
+
+        document.getElementById('board').className =
+            "scoreboard " + temaAtual;
+    }
+
+    window.onload = function () {
+
+        carregarDados();
+
+        // Atualização contínua para OBS
+        setInterval(carregarDados, 100);
+    };
+
+</script>
+
+</body>
+</html>
