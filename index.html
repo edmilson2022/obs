@@ -5,6 +5,7 @@
 <title>Mk Fortaleza - Painel</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     font-family:sans-serif;
@@ -46,6 +47,7 @@ body{
     );
 
     background-size:300% 300%;
+
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
 
@@ -53,9 +55,18 @@ body{
 }
 
 @keyframes title-gradient{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
 }
 
 .panel{
@@ -178,6 +189,14 @@ button.reset{
 button.reset:hover{
     background:#b71c1c;
 }
+
+.status{
+    text-align:center;
+    margin-top:15px;
+    color:#7cb0f7;
+    font-size:13px;
+}
+
 </style>
 </head>
 
@@ -185,145 +204,148 @@ button.reset:hover{
 
 <div class="header-container">
 
-    <img
-        id="logo-preview"
-        class="header-logo"
-        src="https://cdn2.steamgriddb.com/logo/22cdeda97afa215e6098c8f6abae58b6.png"
-    >
+<img
+class="header-logo"
+src="https://cdn2.steamgriddb.com/logo/22cdeda97afa215e6098c8f6abae58b6.png"
+>
 
-    <h1 class="main-title">
-        Mk Fortaleza
-    </h1>
+<h1 class="main-title">
+MK Fortaleza
+</h1>
 
 </div>
 
 <div class="panel">
 
-    <h2>Controle do Placar</h2>
+<h2>Controle do Placar</h2>
 
-    <div class="theme-selector">
+<div class="theme-selector">
 
-        <label>
-            🎨 Escolha o Tema Visível no OBS:
-        </label>
+<label>
+🎨 Escolha o Tema Visível no OBS:
+</label>
 
-        <select id="theme_select" onchange="salvar()">
+<select id="theme_select" onchange="salvar()">
 
-            <option value="theme-blue">
-                🔵 Classic Blue
-            </option>
+<option value="theme-blue">
+🔵 Classic Blue
+</option>
 
-            <option value="theme-red">
-                🔴 Burn Red
-            </option>
+<option value="theme-red">
+🔴 Burn Red
+</option>
 
-            <option value="theme-green">
-                🟢 Acid Green
-            </option>
+<option value="theme-green">
+🟢 Acid Green
+</option>
 
-            <option value="theme-gold">
-                🟡 Gold Edition
-            </option>
+<option value="theme-gold">
+🟡 Gold Edition
+</option>
 
-            <option value="theme-dark">
-                ⚫ Dark Mode
-            </option>
+<option value="theme-dark">
+⚫ Dark Mode
+</option>
 
-        </select>
+</select>
 
-    </div>
+</div>
 
-    <div class="row">
+<div class="row">
 
-        <div class="col">
+<div class="col">
 
-            <label>Jogador 1</label>
+<label>Jogador 1</label>
 
-            <input
-                type="text"
-                id="p1_name"
-                value="TITAN"
-                oninput="salvar()"
-            >
+<input
+type="text"
+id="p1_name"
+value="TITAN"
+oninput="salvar()"
+>
 
-            <input
-                type="number"
-                id="p1_score"
-                value="0"
-                readonly
-            >
+<input
+type="number"
+id="p1_score"
+value="0"
+readonly
+>
 
-            <div class="btn-group">
+<div class="btn-group">
 
-                <button onclick="alterar('p1_score', -1)">
-                    -1
-                </button>
+<button onclick="alterar('p1_score',-1)">
+-1
+</button>
 
-                <button
-                    class="plus"
-                    onclick="alterar('p1_score', 1)"
-                >
-                    +1
-                </button>
+<button
+class="plus"
+onclick="alterar('p1_score',1)"
+>
++1
+</button>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-        <div class="col-center">
+<div class="col-center">
 
-            <label>FT</label>
+<label>FT</label>
 
-            <input
-                type="text"
-                id="match_type"
-                value="FT10"
-                oninput="salvar()"
-                style="text-align:center;font-weight:bold;"
-            >
+<input
+type="text"
+id="match_type"
+value="FT10"
+oninput="salvar()"
+style="text-align:center;font-weight:bold;"
+>
 
-        </div>
+</div>
 
-        <div class="col">
+<div class="col">
 
-            <label>Jogador 2</label>
+<label>Jogador 2</label>
 
-            <input
-                type="text"
-                id="p2_name"
-                value="PIERO"
-                oninput="salvar()"
-            >
+<input
+type="text"
+id="p2_name"
+value="PIERO"
+oninput="salvar()"
+>
 
-            <input
-                type="number"
-                id="p2_score"
-                value="0"
-                readonly
-            >
+<input
+type="number"
+id="p2_score"
+value="0"
+readonly
+>
 
-            <div class="btn-group">
+<div class="btn-group">
 
-                <button onclick="alterar('p2_score', -1)">
-                    -1
-                </button>
+<button onclick="alterar('p2_score',-1)">
+-1
+</button>
 
-                <button
-                    class="plus"
-                    onclick="alterar('p2_score', 1)"
-                >
-                    +1
-                </button>
+<button
+class="plus"
+onclick="alterar('p2_score',1)"
+>
++1
+</button>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
-    <button class="reset" onclick="zerar()">
-        Zerar Placar
-    </button>
+<button class="reset" onclick="zerar()">
+ZERAR PLACAR
+</button>
+
+<div class="status" id="status">
+Conectando ao Baserow...
+</div>
 
 </div>
 
@@ -360,7 +382,7 @@ async function salvar(){
 
     try{
 
-        await fetch(API,{
+        const resposta = await fetch(API,{
 
             method:"PATCH",
 
@@ -372,9 +394,23 @@ async function salvar(){
             body:JSON.stringify(dados)
         });
 
+        if(resposta.ok){
+
+            document.getElementById('status').innerHTML =
+            "✅ Dados enviados ao Baserow";
+
+        }else{
+
+            document.getElementById('status').innerHTML =
+            "❌ Erro ao salvar";
+        }
+
     }catch(erro){
 
         console.log(erro);
+
+        document.getElementById('status').innerHTML =
+        "❌ Falha conexão/API";
     }
 }
 
