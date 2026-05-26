@@ -14,7 +14,7 @@
 }
 
 body{
-    background-color:transparent;
+    background:transparent;
     overflow:hidden;
     width:1000px;
     height:50px;
@@ -38,7 +38,7 @@ body{
 
 .player-name{
     font-size:20px;
-    color:#ffffff;
+    color:#fff;
     letter-spacing:2px;
     text-transform:uppercase;
     font-style:italic;
@@ -61,7 +61,7 @@ body{
     height:100%;
     background:#ff0000;
     width:0%;
-    transition:width 0.3s linear;
+    transition:width .3s linear;
 }
 
 .score-box{
@@ -109,41 +109,41 @@ body{
 
 <div class="scoreboard theme-blue" id="board">
 
-    <div class="score-cell score-box" id="display-score1">
-        0
-    </div>
+<div class="score-cell score-box" id="display-score1">
+0
+</div>
 
-    <div class="score-cell">
+<div class="score-cell">
 
-        <div class="player-name" id="display-name1">
-            JOGADOR 1
-        </div>
+<div class="player-name" id="display-name1">
+JOGADOR 1
+</div>
 
-        <div class="life-bar-container">
-            <div class="life-bar-fill" id="life1"></div>
-        </div>
+<div class="life-bar-container">
+<div class="life-bar-fill" id="life1"></div>
+</div>
 
-    </div>
+</div>
 
-    <div class="score-cell match-type" id="display-match">
-        FT10
-    </div>
+<div class="score-cell match-type" id="display-match">
+FT10
+</div>
 
-    <div class="score-cell">
+<div class="score-cell">
 
-        <div class="player-name" id="display-name2">
-            JOGADOR 2
-        </div>
+<div class="player-name" id="display-name2">
+JOGADOR 2
+</div>
 
-        <div class="life-bar-container">
-            <div class="life-bar-fill" id="life2"></div>
-        </div>
+<div class="life-bar-container">
+<div class="life-bar-fill" id="life2"></div>
+</div>
 
-    </div>
+</div>
 
-    <div class="score-cell score-box" id="display-score2">
-        0
-    </div>
+<div class="score-cell score-box" id="display-score2">
+0
+</div>
 
 </div>
 
@@ -159,12 +159,12 @@ async function carregarDados(){
 
     try{
 
-        const resposta =
-            await fetch(API,{
-                headers:{
-                    "Authorization":"Token " + TOKEN
-                }
-            });
+        const resposta = await fetch(API,{
+
+            headers:{
+                "Authorization":"Token " + TOKEN
+            }
+        });
 
         const dados =
             await resposta.json();
